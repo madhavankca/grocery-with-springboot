@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Route } from 'react-router-dom';
 
 const Inventory = () => {
     const [items, setItems] = useState([]);
     const [itemQuantities, setItemQuantities] = useState({});
     const [totalPrices, setTotalPrices] = useState({});
-    const [totol, setTotal] = useState(0);
     const [disabledButton, setDisabledButton] = useState({});
 
     const plus = (item) => {
@@ -22,7 +22,6 @@ const Inventory = () => {
             ...prevTotalPrices,
             [item.id]: totalPrice,
         }));
-        setTotal((prevTotal) => prevTotal + totalPrice);
     };
 
     const addToCart = async (item, quantity) => {
@@ -44,6 +43,7 @@ const Inventory = () => {
         } catch (error) {
             console.error('Error adding items to the db', error);
         }
+
     };
 
     useEffect(() => {
@@ -56,7 +56,6 @@ const Inventory = () => {
                 console.log('Something went wrong', error);
             });
     }, []);
-
     return (
         <div>
             <h2>Inventory Items</h2>
@@ -64,7 +63,7 @@ const Inventory = () => {
                 <thead>
                     <tr>
                         <th>Item Name</th>
-                        <th>Price</th>
+                        <th>Price/Kg</th>
                         <th>Add here</th>
                         <th>Quantity</th>
                     </tr>
@@ -88,8 +87,9 @@ const Inventory = () => {
                     ))}
                 </tbody>
             </table>
+            <p><button >Go To Cart</button></p>
+
         </div>
     );
 };
-
 export default Inventory;
