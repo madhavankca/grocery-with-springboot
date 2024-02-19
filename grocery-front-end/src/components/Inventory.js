@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Route } from 'react-router-dom';
+import { Route , useNavigate, useHistory} from 'react-router-dom';
 
 const Inventory = () => {
     const [items, setItems] = useState([]);
     const [itemQuantities, setItemQuantities] = useState({});
     const [totalPrices, setTotalPrices] = useState({});
     const [disabledButton, setDisabledButton] = useState({});
+    const navigate = useNavigate();
+    // const history = useHistory();
+
 
     const plus = (item) => {
         setItemQuantities((prevQuantities) => ({
@@ -45,6 +48,10 @@ const Inventory = () => {
         }
 
     };
+
+    const goToCart = () => {
+        navigate('/cart-page')
+    }
 
     useEffect(() => {
         axios.get('http://localhost:8080/getAllItems')
@@ -87,7 +94,7 @@ const Inventory = () => {
                     ))}
                 </tbody>
             </table>
-            <p><button >Go To Cart</button></p>
+            <p><button onClick={goToCart}>Go To Cart</button></p>
 
         </div>
     );
