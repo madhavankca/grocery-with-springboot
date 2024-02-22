@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+    import axios from 'axios';
 import { Route , useNavigate, useHistory} from 'react-router-dom';
 
 const Inventory = () => {
@@ -11,12 +11,28 @@ const Inventory = () => {
     // const history = useHistory();
 
 
-    const plus = (item) => {
+    const plus = async(item, quantity) => {
         setItemQuantities((prevQuantities) => ({
             ...prevQuantities,
             [item.id]: (prevQuantities[item.id] || 0) + 1,
         }));
         updateTotalPrice(item, (itemQuantities[item.id] || 0) + 1);
+
+        ///////
+        const requestData = {
+            id:item.id,
+            name: item.name,
+            pricePerQuantity: item.price,
+            quantity: quantity,
+            totalPrice: totalPrices[item.id] || 0,
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8080/storeTheItems', requestData);
+            console.log('Item added to cart:', response.data);
+        } catch (error) {
+            console.error('Error adding items to the db', error);
+        }
     };
 
     const updateTotalPrice = (item, quantity) => {
@@ -32,21 +48,6 @@ const Inventory = () => {
             ...prevDisabledButton,
             [item.id]: true,
         }));
-
-        const requestData = {
-            name: item.name,
-            pricePerQuantity: item.price,
-            quantity: quantity,
-            totalPrice: totalPrices[item.id] || 0,
-        };
-
-        try {
-            const response = await axios.post('http://localhost:8080/storeTheItems', requestData);
-            console.log('Item added to cart:', response.data);
-        } catch (error) {
-            console.error('Error adding items to the db', error);
-        }
-
     };
 
     const goToCart = () => {
@@ -80,8 +81,10 @@ const Inventory = () => {
                         <tr key={item.id}>
                             <td>{item.name}</td>
                             <td>{item.price}</td>
-                            <td><button onClick={() => plus(item)}>+</button></td>
-                            <td>{itemQuantities[item.id] || 0}</td>
+                            <td><button onClick={() => plus(item, itemQuantities[item.id] || 0)}>+</button></td>
+
+
+                            {/* <td>{itemQuantities[item.id] || 0}</td>
                             <td>
                                 <button
                                     onClick={() => addToCart(item, itemQuantities[item.id])}
@@ -89,7 +92,7 @@ const Inventory = () => {
                                 >
                                     Add To Cart
                                 </button>
-                            </td>
+                            </td> */}
                         </tr>
                     ))}
                 </tbody>
