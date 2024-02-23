@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-// import {Route } from react-router-DOMException;
 
 const CartPage = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -15,12 +14,11 @@ const CartPage = () => {
     useEffect(() => {
         axios.get('http://localhost:8080/getCartItems')
             .then(response => {
-                console.log('Printing cart items', response.data);
                 setCartItems(response.data);
                 calculateTotalBill(response.data);
             })
             .catch(error => {
-                console.log('Error fetching cart items', error);
+                console.error('Error fetching cart items', error);
             });
     }, []);
 
@@ -33,7 +31,7 @@ const CartPage = () => {
                     <tr>
                         <th>Item Name</th>
                         <th>Price/Kg</th>
-                        <th>Quantity</th>
+                        <th>Quantity(Kg)</th>
                         <th>Total price of this Item</th>
 
                     </tr>

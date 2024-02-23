@@ -12,14 +12,12 @@ export default function Login({ onLogin }) {
   const handleLogin = async () => {
     try {
       const loginResponse = await axios.post("http://localhost:8080/login", requestData);
-      console.log("Response from server " + loginResponse.data);
 
       onLogin();
 
       if (loginResponse.status === 200) {
         try {
           const deleteResponse = await axios.delete("http://localhost:8080/deleteAllItems");
-          console.log(deleteResponse);
         } catch (error) {
           console.error("Could not remove items" + error);
         }
