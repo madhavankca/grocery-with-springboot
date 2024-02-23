@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-    import axios from 'axios';
-import { Route , useNavigate, useHistory} from 'react-router-dom';
+import axios from 'axios';
+import { Route, useNavigate, useHistory } from 'react-router-dom';
 
 const Inventory = () => {
     const [items, setItems] = useState([]);
@@ -11,7 +11,7 @@ const Inventory = () => {
     // const history = useHistory();
 
 
-    const plus = async(item, quantity) => {
+    const plus = async (item, quantity) => {
         setItemQuantities((prevQuantities) => ({
             ...prevQuantities,
             [item.id]: (prevQuantities[item.id] || 0) + 1,
@@ -20,7 +20,7 @@ const Inventory = () => {
 
         ///////
         const requestData = {
-            id:item.id,
+            id: item.id,
             name: item.name,
             pricePerQuantity: item.price,
             quantity: quantity,
